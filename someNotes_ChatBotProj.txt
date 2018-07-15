@@ -1,0 +1,6 @@
+Methods for Chatbot
+
+
+1. Display Day & AM/PM. Need to verify eligible for booking and return warning.
+2. Display Day & AM specific slots
+3. Book specific slot

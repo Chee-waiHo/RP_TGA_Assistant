@@ -1,0 +1,247 @@
+https://firestore.googleapis.com/v1beta1/{parent=projects/*/databases/*/documents/**}/{collectionId}
+
+https://firestore.googleapis.com/v1beta1/{document.name=projects/*/databases/*/documents/*/**}
+
+Firestore API Explorer : THIS WORKS!
+
+Patch REST API Call
+
+Request: (Update only the name field to "John Cena"
+
+PATCH https://firestore.googleapis.com/v1beta1/projects/newbot-a9161/databases/(default)/documents/testCollection/testDocument8?updateMask.fieldPaths=name&key={YOUR_API_KEY}
+ 
+{
+ "fields": {
+  "name": {
+   "stringValue": "John Cena"
+  }
+ }
+}
+
+Response
+
+{
+ "name": "projects/newbot-a9161/databases/(default)/documents/testCollection/testDocument8",
+ "fields": {
+  "birthYear": {
+   "stringValue": "2007"
+  },
+  "isCool": {
+   "booleanValue": true
+  },
+  "name": {
+   "stringValue": "John Cena"
+  }
+ },
+ "createTime": "2018-05-28T01:39:37.569328Z",
+ "updateTime": "2018-05-28T02:04:24.109209Z"
+}
+
+Request (Create a new document)
+
+PATCH https://firestore.googleapis.com/v1beta1/projects/newbot-a9161/databases/(default)/documents/testCollection/testDocument10?updateMask.fieldPaths=name&updateMask.fieldPaths=birthYear&updateMask.fieldPaths=isCool&key={YOUR_API_KEY}
+ 
+{
+ "fields": {
+  "name": {
+   "stringValue": "John Steinback"
+  },
+  "birthYear": {
+   "integerValue": "1898"
+  },
+  "isCool": {
+   "booleanValue": false
+  }
+ }
+}
+ 
+Response:
+ 
+ 200
+ 
+- Hide headers -
+ 
+cache-control:  private
+content-encoding:  gzip
+content-length:  239
+content-type:  application/json; charset=UTF-8
+date:  Mon, 28 May 2018 02:13:01 GMT
+server:  ESF
+vary:  Origin, X-Origin, Referer
+  
+{
+ "name": "projects/newbot-a9161/databases/(default)/documents/testCollection/testDocument10",
+ "fields": {
+  "isCool": {
+   "booleanValue": false
+  },
+  "name": {
+   "stringValue": "John Steinback"
+  },
+  "birthYear": {
+   "integerValue": "1898"
+  }
+ },
+ "createTime": "2018-05-28T02:13:01.032667Z",
+ "updateTime": "2018-05-28T02:13:01.032667Z"
+}
+
+Request (Update a document, take note of field mask)
+
+PATCH https://firestore.googleapis.com/v1beta1/projects/newbot-a9161/databases/(default)/documents/testCollection/testDocument10?updateMask.fieldPaths=name&updateMask.fieldPaths=birthYear&updateMask.fieldPaths=isCool&key={YOUR_API_KEY}
+ 
+{
+ "fields": {
+  "name": {
+   "stringValue": "John Steinback Jr"
+  },
+  "birthYear": {
+   "integerValue": "1900"
+  },
+  "isCool": {
+   "booleanValue": true
+  }
+ }
+}
+
+
+Response:
+
+200
+ 
+- Hide headers -
+ 
+cache-control:  private
+content-encoding:  gzip
+content-length:  248
+content-type:  application/json; charset=UTF-8
+date:  Mon, 28 May 2018 02:15:58 GMT
+server:  ESF
+vary:  Origin, X-Origin, Referer
+ 
+{
+ "name": "projects/newbot-a9161/databases/(default)/documents/testCollection/testDocument10",
+ "fields": {
+  "name": {
+   "stringValue": "John Steinback Jr"
+  },
+  "birthYear": {
+   "integerValue": "1900"
+  },
+  "isCool": {
+   "booleanValue": true
+  }
+ },
+ "createTime": "2018-05-28T02:13:01.032667Z",
+ "updateTime": "2018-05-28T02:15:58.935780Z"
+}
+
+Request (create timeslot)
+
+PATCH https://firestore.googleapis.com/v1beta1/projects/newbot-a9161/databases/(default)/documents/timeslot/09-Jun-19 03:00 PM?updateMask.fieldPaths=from&updateMask.fieldPaths=max&updateMask.fieldPaths=to&updateMask.fieldPaths=venue&key={YOUR_API_KEY}
+ 
+{
+ "fields": {
+  "from": {
+   "timestampValue": "2019-06-09T08:00:00.000000Z"
+  },
+  "max": {
+   "integerValue": "3"
+  },
+  "to": {
+   "timestampValue": "2019-06-09T08:29:00.000000Z"
+  },
+  "venue": {
+   "stringValue": "RPC Rm 9"
+  }
+ }
+}
+
+Response (create timeslot)
+
+200
+ 
+- Hide headers -
+ 
+cache-control:  private
+content-encoding:  gzip
+content-length:  253
+content-type:  application/json; charset=UTF-8
+date:  Mon, 28 May 2018 03:17:52 GMT
+server:  ESF
+vary:  Origin, X-Origin, Referer
+ 
+{
+ "name": "projects/newbot-a9161/databases/(default)/documents/timeslot/09-Jun-19 03:00 PM",
+ "fields": {
+  "venue": {
+   "stringValue": "RPC Rm 9"
+  },
+  "to": {
+   "timestampValue": "2019-06-09T08:29:00Z"
+  },
+  "max": {
+   "integerValue": "3"
+  },
+  "from": {
+   "timestampValue": "2019-06-09T08:00:00Z"
+  }
+ },
+ "createTime": "2018-05-28T03:17:52.814751Z",
+ "updateTime": "2018-05-28T03:17:52.814751Z"
+}
+
+Request (Update)
+
+PATCH https://firestore.googleapis.com/v1beta1/projects/newbot-a9161/databases/(default)/documents/timeslot/09-Jun-19 03:00 PM?updateMask.fieldPaths=from&updateMask.fieldPaths=max&updateMask.fieldPaths=to&updateMask.fieldPaths=venue&key={YOUR_API_KEY}
+ 
+{
+ "fields": {
+  "from": {
+   "timestampValue": "2019-06-09T18:00:00.000000+08:00"
+  },
+  "max": {
+   "integerValue": "3"
+  },
+  "to": {
+   "timestampValue": "2019-06-09T18:29:00.000000+08:00"
+  },
+  "venue": {
+   "stringValue": "RPC Rm 19"
+  }
+ }
+}
+
+Response
+
+200
+ 
+- Hide headers -
+ 
+cache-control:  private
+content-encoding:  gzip
+content-length:  265
+content-type:  application/json; charset=UTF-8
+date:  Mon, 28 May 2018 03:35:29 GMT
+server:  ESF
+vary:  Origin, X-Origin, Referer
+ 
+{
+ "name": "projects/newbot-a9161/databases/(default)/documents/timeslot/09-Jun-19 03:00 PM",
+ "fields": {
+  "to": {
+   "timestampValue": "2019-06-09T10:29:00Z"
+  },
+  "max": {
+   "integerValue": "3"
+  },
+  "from": {
+   "timestampValue": "2019-06-09T10:00:00Z"
+  },
+  "venue": {
+   "stringValue": "RPC Rm 19"
+  }
+ },
+ "createTime": "2018-05-28T03:17:52.814751Z",
+ "updateTime": "2018-05-28T03:35:29.762483Z"
+}
