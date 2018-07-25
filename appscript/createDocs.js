@@ -241,6 +241,7 @@ function uploadEligibleStudents () {
            
          case "Timeslot":
            if (values[i][j].trim().length !== 0) {
+             values[i][j] = values[i][j].replace(/_/g, ""); // if not do this, always invalid!
              if (!validateId(values[i][j])) {
                Logger.log("E R R O R  ! at Row " + i + " Col " + j + ": Invalid Date/Time Format " + values[i][j]);
                rowNoErr = false;
@@ -430,6 +431,9 @@ function downloadAppts () {
         Logger.log("Curr Field: " + resultSet.documents[i].fields[fieldKeys[j]][dataTypeKey[0]]);
         currField = resultSet.documents[i].fields[fieldKeys[j]][dataTypeKey[0]];
         colNo = colHeadingsMap[fieldKeys[j]];
+        if (fieldKeys[j] == "slot" && currField.length > 0) {
+          currField = "_" + currField; // to prevent auto-convert to date format
+        }
         currRow[colNo] = currField;
       }
       Logger.log("Curr Row :" + currRow);

@@ -42,6 +42,15 @@ function setAppointment (request, response) {
     chkEligibility (searchUin, eligibility => {
         console.log("Eligibility switch " + eligibility.status);
         let fulfillmentText = {};
+        if (request.body.queryResult.action === "changeSlot" && 
+            eligibility.status === 1) {
+            // change to 9 because cannot request change if you no prior appt
+            eligibility.status = 9;
+        } else if (request.body.queryResult.action === "changeSlot" && 
+            eligibility.status === 9) {
+            // change to 1 because CAN change since there is prior appt
+            eligibility.status = 1;
+        }
         switch (eligibility.status) {
             case 1: {
                 // Check if this is an actual slot
@@ -102,9 +111,15 @@ function setAppointment (request, response) {
                 break;
             }
             case 9: {
-                fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `you have an existing appointment on ${eligibility.data.slot}`};
-                response.send(fulfillmentText);
+                if (request.body.queryResult.action === "changeSlot") {
+                    fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
+                    `you have NOT made an appointment yet`};
+                    response.send(fulfillmentText);
+                } else {
+                    fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
+                    `you have an existing appointment on ${eligibility.data.slot}`};
+                    response.send(fulfillmentText);
+                }
                 break;
             }
         }   
@@ -112,6 +127,7 @@ function setAppointment (request, response) {
     });
 }
 
+// Return available days, making 1st appointment
 function getAvailAppointmentDays(request, response) {
     let params = request.body.queryResult.parameters;
     let searchUin = params.shortUin.charAt(0) + 'XXX' +
@@ -120,6 +136,15 @@ function getAvailAppointmentDays(request, response) {
     chkEligibility (searchUin, eligibility => {
         console.log("Eligibility switch " + eligibility.status);
         let fulfillmentText = {};
+        if (request.body.queryResult.action === "requestChangeApptDay" && 
+            eligibility.status === 1) {
+            // change to 9 because cannot request change if you no prior appt
+            eligibility.status = 9;
+        } else if (request.body.queryResult.action === "requestChangeApptDay" && 
+            eligibility.status === 9) {
+            // change to 1 because CAN change since there is prior appt
+            eligibility.status = 1;
+        }
         switch (eligibility.status) {
             case 1: {
                 // For technical reasons not fully understood, not able
@@ -163,15 +188,22 @@ function getAvailAppointmentDays(request, response) {
                 break;
             }
             case 9: {
-                fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `you have an existing appointment on ${eligibility.data.slot}`};
-                response.send(fulfillmentText);
+                if (request.body.queryResult.action === "requestChangeApptDay") {
+                    fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
+                    `you have NOT made an appointment yet`};
+                    response.send(fulfillmentText);
+                } else {
+                    fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
+                    `you have an existing appointment on ${eligibility.data.slot}`};
+                    response.send(fulfillmentText);
+                }
                 break;
             }
         }
         return "Completed ALL appointment sessions retrieval ";
      });
 }
+
 
 function checkDaysAvail_SendResponse(results, params, response) {
     let allocated = 0, arrayApptDayAMPM = [], tempApptDayAMPM = "", i=0 ;
@@ -236,6 +268,15 @@ function getAvailAMPMSlots(request, response){
     chkEligibility (searchUin, eligibility => {
         console.log("Eligibility switch " + eligibility.status);
         let fulfillmentText = {};
+        if (request.body.queryResult.action === "changeRequestReturnSlots" && 
+            eligibility.status === 1) {
+            // change to 9 because cannot request change if you no prior appt
+            eligibility.status = 9;
+        } else if (request.body.queryResult.action === "changeRequestReturnSlots" && 
+            eligibility.status === 9) {
+            // change to 1 because CAN change since there is prior appt
+            eligibility.status = 1;
+        }
         switch (eligibility.status) {
             case 1: {
                 // Canot encapsulates retrieval of all timeslots as a function
@@ -287,10 +328,15 @@ function getAvailAMPMSlots(request, response){
                 break;
             }
             case 9: {
-                fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `you have an existing appointment on ${eligibility.data.slot}`};
-                console.log(fulfillmentText);
-                response.send(fulfillmentText);
+                if (request.body.queryResult.action === "changeRequestReturnSlots") {
+                    fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
+                    `you have NOT made an appointment yet`};
+                    response.send(fulfillmentText);
+                } else {
+                    fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
+                    `you have an existing appointment on ${eligibility.data.slot}`};
+                    response.send(fulfillmentText);
+                }
                 break;
             }
         }
@@ -374,8 +420,19 @@ exports.rpApptAsstWebhook = functions.https.onRequest((request, response) => {
             console.log("Completed Check Current Status");
             break;
         }
+        case "requestChangeApptDay": {
+             console.log ("Change Request: Check Available Appt Days");
+             getAvailAppointmentDays(request, response);
+             console.log ("Change Request: Complete Check Available Appt Days");
+             break;
+         }
         case "returnSlots": {
             console.log("Display Time Slots for Selected Day");
+            getAvailAMPMSlots(request, response);
+            break;
+        }
+        case "changeRequestReturnSlots" : {
+            console.log("Change Request: Display Time Slots for Selected Day");
             getAvailAMPMSlots(request, response);
             break;
         }
@@ -383,6 +440,12 @@ exports.rpApptAsstWebhook = functions.https.onRequest((request, response) => {
             console.log("Set Appointment");
             setAppointment(request, response);
             console.log("Completed Set Appointment ");
+            break;
+        }
+        case "changeSlot": {
+            console.log("Change Request: Reset Appointment");
+            setAppointment(request, response);
+            console.log("Change Request: Reset Set Appointment ");
             break;
         }
         default:{
