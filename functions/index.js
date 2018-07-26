@@ -299,6 +299,11 @@ function getAvailAMPMSlots(request, response){
                     });
                     console.log ("Complete retrieval of all session time slots ",
                     sessionTimeSlotsArray.length);
+                    if (sessionTimeSlotsArray.length === 0) {
+                        fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
+                        `you seem to have selected an invalid day`};
+                        response.send(fulfillmentText);
+                    }
                     return Promise.all(sessionTimeSlotsArray);
                 })
                 .catch(err => {
