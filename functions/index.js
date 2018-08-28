@@ -61,7 +61,8 @@ function setAppointment (request, response) {
                         console.log(params.slotChoice, ' ', params.shortUin,
                         ' slot choice does not exits!');
                         fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                        `${params.slotChoice} is unavailable`};
+                        `${params.slotChoice} is unavailable. If you wish to ` +
+                        `book another appointment, type START AGAIN.`};
                         response.send(fulfillmentText);
                         return Promise.all(true);;
                     }
@@ -106,18 +107,43 @@ function setAppointment (request, response) {
             }
             case 0: {
                 fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `you are not registered for TGA signing`};
+                `I am not informed that a student with trailing student id ` +
+                `${params.shortUin} ` + `has TGA signing that is due. If you wish to ` +
+                `re-submit your particulars, type START AGAIN.`};
                 response.send(fulfillmentText);
                 break;
             }
             case 9: {
                 if (request.body.queryResult.action === "changeSlot") {
+                    let payload = {'telegram': {
+                        'text': `${params.fullName}, ` +
+                            ` It looks that you have yet to make any ` +
+                            `appointment to sign the TGA. `,
+                        'reply_markup' : {}
+                        }
+                    };
+                    payload.telegram.reply_markup.inline_keyboard = [
+                        [{'text':'Book Now', 'callback_data':'Book Now'},
+                        {'text':'Come Back Later', 'callback_data':'Come Back Later'}]
+                    ];
+                    console.log ('Custom Payload ' + `${JSON.stringify(payload)}`);           
                     fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                    `you have NOT made an appointment yet`};
+                    `you have an existing appointment on ${eligibility.data.slot}`, payload};
                     response.send(fulfillmentText);
-                } else {
+                } else { // attempt to book an appointment but has existing appointment
+                    let payload = {'telegram': {
+                            'text': `${params.fullName}, ` +
+                                `you have an existing appointment on ${eligibility.data.slot}`,
+                            'reply_markup' : {}
+                        }
+                    };
+                    payload.telegram.reply_markup.inline_keyboard = [
+                        [{'text':'Change Now', 'callback_data':'Change Now'},
+                        {'text':'Keep Appointment', 'callback_data':'Keep Appointment'}]
+                    ];
+                    console.log ('Custom Payload ' + `${JSON.stringify(payload)}`);           
                     fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                    `you have an existing appointment on ${eligibility.data.slot}`};
+                    `you have an existing appointment on ${eligibility.data.slot}`, payload};
                     response.send(fulfillmentText);
                 }
                 break;
@@ -151,7 +177,7 @@ function getAvailAppointmentDays(request, response) {
                 // to encapsulate retrieval of all timeslots as a function
                 // Retrieve all time slots: Start
                 let allTimeSlotsArray = [];
-                let allTimeSlots = firestore.collection('timeslot').get()
+                let allTimeSlots = firestore.collection('timeslot').orderBy("from").get()
                 .then(querySnapshot => {
                     querySnapshot.forEach(doc => {
                         console.log(doc.id, '==>', doc.data());
@@ -169,7 +195,7 @@ function getAvailAppointmentDays(request, response) {
                 
                 allTimeSlots
                 .then(results => {
-                    checkDaysAvail_SendResponse(results, params, response);
+                    checkDaysAvail_SendResponse(results, params, request, response, eligibility);
                     console.log("Completed async availability checks for each ",
                     "timeslot, results pending");
                     return ("Completed async availability checks for each timeslot");
@@ -183,18 +209,44 @@ function getAvailAppointmentDays(request, response) {
             }
             case 0: {
                 fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `you are not registered for TGA signing`};
+                `I am not informed that a student with trailing student id ` +
+                `${params.shortUin} ` + `has TGA signing that is due. If you wish to ` +
+                `re-submit your particulars, type START AGAIN.`};
                 response.send(fulfillmentText);
                 break;
             }
             case 9: {
                 if (request.body.queryResult.action === "requestChangeApptDay") {
+                    let payload = {'telegram': {
+                        'text': `${params.fullName}, ` +
+                            ` It looks that you have yet to make any ` +
+                            `appointment to sign the TGA. `,
+                        'reply_markup' : {}
+                        }
+                    };
+                    payload.telegram.reply_markup.inline_keyboard = [
+                        [{'text':'Book Now', 'callback_data':'Book Now'},
+                        {'text':'Come Back Later', 'callback_data':'Come Back Later'}]
+                    ];
+                    console.log ('Custom Payload ' + `${JSON.stringify(payload)}`);           
                     fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                    `you have NOT made an appointment yet`};
+                    `It looks that you have yet to make any appointment to ` + 
+                    `sign the TGA. `, payload};
                     response.send(fulfillmentText);
-                } else {
+                } else { // want to book an appt but prior appt already exists
+                    let payload = {'telegram': {
+                            'text': `${params.fullName}, ` +
+                                `you have an existing appointment on ${eligibility.data.slot}`,
+                            'reply_markup' : {}
+                        }
+                    };
+                    payload.telegram.reply_markup.inline_keyboard = [
+                        [{'text':'Change Now', 'callback_data':'Change Now'},
+                        {'text':'Keep Appointment', 'callback_data':'Keep Appointment'}]
+                    ];
+                    console.log ('Custom Payload ' + `${JSON.stringify(payload)}`);           
                     fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                    `you have an existing appointment on ${eligibility.data.slot}`};
+                    `you have an existing appointment on ${eligibility.data.slot}`, payload};
                     response.send(fulfillmentText);
                 }
                 break;
@@ -204,9 +256,25 @@ function getAvailAppointmentDays(request, response) {
      });
 }
 
+function comparator(a, b) {
+    if (a[0] < b[0])
+        return -1;
+    if (a[0] > b[0])
+       return 1;
+    return 0;
+}
 
-function checkDaysAvail_SendResponse(results, params, response) {
-    let allocated = 0, arrayApptDayAMPM = [], tempApptDayAMPM = "", i=0 ;
+function chgMMMtoMM(chgFromMMM) {
+    MMMtoMM = [];
+    MMMtoMM['Jan'] = '01'; MMMtoMM['Feb'] = '02'; MMMtoMM['Mar'] = '03';
+    MMMtoMM['Apr'] = '04'; MMMtoMM['May'] = '05'; MMMtoMM['Jun'] = '06';
+    MMMtoMM['Jul'] = '07'; MMMtoMM['Aug'] = '08'; MMMtoMM['Sep'] = '09';
+    MMMtoMM['Oct'] = '10'; MMMtoMM['Feb'] = '11'; MMMtoMM['Mar'] = '12';
+    return MMMtoMM[chgFromMMM];
+}
+
+function checkDaysAvail_SendResponse(results, params, request, response, eligibility) {
+    let allocated = 0, arrayApptDayAMPM = [], tempApptDayAMPM = "", i=0, seq="";
     results.forEach(doc => {
         console.log("Checking timeslot ", doc.id, "**>", doc.data());
         firestore.collection('appts').where("slot", "==", doc.id).get()
@@ -217,25 +285,54 @@ function checkDaysAvail_SendResponse(results, params, response) {
             i++;
             if (allocated < doc.data().max ) {
                  // Check if the day (AM/PM) is already present
-                tempApptDayAMPM = doc.id.substr(0, 9) + " " + doc.id.substr(16, 17);
+                tempApptDayAMPM = doc.id.substr(0, 9) + " " + doc.id.substr(16, 2);
                 if (arrayApptDayAMPM.indexOf(tempApptDayAMPM) === -1) {
                     arrayApptDayAMPM.push(tempApptDayAMPM);
                 }
             }
             if (i === results.length) { // send response when completed all checks
+                advisorMsg = "";
                 if (arrayApptDayAMPM.length > 0) {
+                    if (request.body.queryResult.action === "requestChangeApptDay")  {
+                        advisorMsg = `${params.fullName}, ` +
+                        `you have an existing appointment on ${eligibility.data.slot}. ` +
+                        `If you wish, you can proceed to change it to one ` +
+                        `of the following sessions.`
+                    } else {
+                        advisorMsg =`${params.fullName}, ` +
+                        `It looks that you have yet to make any ` +
+                        `appointment to sign the TGA. Here are some ` +
+                        `available sessions. Please select one.`;
+                    }
                     let payload = {'telegram': {
-                            'text': `${params.fullName}, ` +
-                                `It looks like you are due to sign your TGA. Here are ` +
-                                `Some sessions that are available. Select one please.`,
+                            'text': advisorMsg,
                             'reply_markup' : {}
                         }
                     };
-                    let tempInline_Keyboard = [];
+                    // sort the array in accordance to orginal sequence to get date seq correct
                     for (j = 0; j < arrayApptDayAMPM.length; j++) {
-                        tempInline_Keyboard[j] = [{'text': `${arrayApptDayAMPM[j]}`, 
-                        'callback_data': `${arrayApptDayAMPM[j]}`}];
+                        // need to convert to YY-MM-DD HH:MM AM/PM for sort
+                        seq = arrayApptDayAMPM[j];
+                        seq = seq.substr(7, 2) + chgMMMtoMM(seq.substr(3, 3)) +
+                        seq.substr(0, 2) + seq.substr(10, 2); 
+                        arrayApptDayAMPM[j]=[seq, arrayApptDayAMPM[j]];
                     }
+                    arrayApptDayAMPM = arrayApptDayAMPM.sort(comparator);
+                    let tempInline_Keyboard = [], k = -1, l = 0;
+                    for (j = 0; j < arrayApptDayAMPM.length; j++) {
+                        if (j % 2 === 0) {
+                            k++;
+                            l = 0;
+                            tempInline_Keyboard[k] = [];
+                        } else {
+                            l = 1;
+                        }
+                        tempInline_Keyboard[k][l] = {'text': `${arrayApptDayAMPM[j][1]}`, 
+                        'callback_data': `${arrayApptDayAMPM[j][1]}`};
+                    }
+                    if (j % 2 === 1) // if odd number of buttons, gv more balanced look
+                        tempInline_Keyboard[k][1] = {'text': '-', 'callback_data': '-'};  
+
                     payload.telegram.reply_markup.inline_keyboard = tempInline_Keyboard;
                     console.log ('Custom Payload ' + `${JSON.stringify(payload)}`);
                     response.send({fulfillmentText: `${params.fullName}, ` +
@@ -301,7 +398,8 @@ function getAvailAMPMSlots(request, response){
                     sessionTimeSlotsArray.length);
                     if (sessionTimeSlotsArray.length === 0) {
                         fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                        `you seem to have selected an invalid day`};
+                        `you seem to have selected an invalid day. ` +
+                        `you may type START AGAIN to book another appointment.`};
                         response.send(fulfillmentText);
                     }
                     return Promise.all(sessionTimeSlotsArray);
@@ -328,14 +426,29 @@ function getAvailAMPMSlots(request, response){
             }
             case 0: {
                 fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `you are not registered for TGA signing`};
+                `I am not informed that a student with trailing student id ` +
+                `${params.shortUin} ` + `has TGA signing that is due. If you wish to ` +
+                `re-submit your particulars, type START AGAIN.`};
                 response.send(fulfillmentText);
                 break;
             }
             case 9: {
                 if (request.body.queryResult.action === "changeRequestReturnSlots") {
+                    let payload = {'telegram': {
+                        'text': `${params.fullName}, ` +
+                            ` It looks that you have yet to make any ` +
+                            `appointment to sign the TGA. `,
+                        'reply_markup' : {}
+                        }
+                    };
+                    payload.telegram.reply_markup.inline_keyboard = [
+                        [{'text':'Book Now', 'callback_data':'Book Now'},
+                        {'text':'Come Back Later', 'callback_data':'Come Back Later'}]
+                    ];
+                    console.log ('Custom Payload ' + `${JSON.stringify(payload)}`);           
                     fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                    `you have NOT made an appointment yet`};
+                    `It looks that you have yet to make any appointment to ` + 
+                    `sign the TGA. `, payload};
                     response.send(fulfillmentText);
                 } else {
                     fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
@@ -374,11 +487,30 @@ function checkSessionSlotsAvail_SendResponse(results, params, response) {
                             'reply_markup' : {}
                         }
                     };
-                    let tempInline_Keyboard = [];
+                    // sort the array in accordance to orginal sequence to get date seq correct
+                    let seq = "";
                     for (j = 0; j < arrayTimeSlot.length; j++) {
-                        tempInline_Keyboard[j] = [{'text': `${arrayTimeSlot[j]}`, 
-                        'callback_data': `${arrayTimeSlot[j]}`}];
+                        // need to convert to shift AM/PM fwd for sort
+                        seq = arrayTimeSlot[j];
+                        seq = seq.substr(0, 9) + seq.substr(16, 2) + seq.substr(10, 5);  
+                        arrayTimeSlot[j]=[seq, arrayTimeSlot[j]];
                     }
+                    arrayTimeSlot = arrayTimeSlot.sort(comparator);
+                    let tempInline_Keyboard = [], k = -1, l = 0;
+                    for (j = 0; j < arrayTimeSlot.length; j++) {
+                        if (j % 2 === 0) {
+                            k++;
+                            l = 0;
+                            tempInline_Keyboard[k] = [];
+                        } else {
+                            l = 1;
+                        }
+                        tempInline_Keyboard[k][l] = {'text': `${arrayTimeSlot[j][1]}`, 
+                        'callback_data': `${arrayTimeSlot[j][1]}`};
+                    }
+                    if (j % 2 === 1) // if odd number of buttons, gv more balanced look
+                        tempInline_Keyboard[k][1] = {'text': '-', 'callback_data': '-'}; 
+
                     payload.telegram.reply_markup.inline_keyboard = tempInline_Keyboard;
                     console.log ('Custom Payload ' + `${JSON.stringify(payload)}`);
                     response.send({fulfillmentText: `${params.fullName}, ` +
