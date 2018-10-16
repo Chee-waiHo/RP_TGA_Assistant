@@ -64,7 +64,7 @@ function setAppointment (request, response) {
                         `${params.slotChoice} is unavailable. If you wish to ` +
                         `book another appointment, type START AGAIN.`};
                         response.send(fulfillmentText);
-                        return Promise.all(true);;
+                        return Promise.all(true);
                     }
                 })
                 .catch(err => {
