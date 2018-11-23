@@ -2,10 +2,10 @@
 // Perhaps due to length of KEY, storing these variables are Project Properties did not work either
 // FYI Project Properties worked with shorter strings.
 var serviceAc = {
-        EMAIL: "appointment-synchronization@newbot-a9161.iam.gserviceaccount.com",
-        KEY: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCp6C4rFg4zKjAb\ni7pQm+MnWUHNS9Pnx7SIvro35Ka8olmIjbEbd7cxIWEM8+Yo8dyD8YFk3biYwPHq\njHd0AO/VXhhxcyJgwrSoRFD3Gbq/K+nmor30dW7BXQFoGhUso0mX3ih4AuzkAsfx\n5YTZjBtSBF8PxkiLn+xrJCFpnHMfRa4yHxAhkYdO676PouLeTeMUpLp9VB6kT+KE\nWV82IPQZjjIujVVwKggxSjLNrQVyLNws4nIRNtG5s7hwPgLLENps8Il3QIlJ21cM\n/815uiYbI6hDsH8WLryRLlzQqBRBHxyrAxb4O2lL33PNeC5IFMCO7WdEkNdv52yZ\n5I2LCeUPAgMBAAECggEAD8c18l5b9zhlu0kghjfTwmWxjKUMCqwrAb/kfyhGq6HP\n+rRdzBUz9+YHozJLH2ZGeiJFR96nM9hHHuboeOdVXlUco/xzJtUt/apKcof7JaGo\nWPin9zmojWBbrxUs/jYzsVy6GVr8MLhpZPdRfPpb1yP8x/Q77GtvgwuZ5rrWngKt\nnYWxYhg4ndQXtIGek9gcxhpjfa6gHspiMD+RT9e8Q8d+vwc9M+FgZHyivSe3vxEE\nmFPG4s1KDnqExJbdrKsQPmkZMS0rwcdUwbgfq53pyDi51RCQ6CxVjETM9TMmrSjD\nkihBXNNjFZJM3SVGYp3PUS4zFXRCR0X+fLBAxi61AQKBgQDl0sK6pDVcNJuRhhZu\nTPglyVOkYvO2r4k0msD12DtyYnRyUSAHEeWAtGNQDa1miFIrd0C3i9BeKk/vHaR7\nxSeHpxE8hue7XaOYVPEGEfkuOoeucARS3jLDsfArFdrCLC+vdQxrL3VbJo1QnFDt\nQwAPAOlt0xF+s87CygjTT5sZTwKBgQC9Ql2kU3sudz6HXXPCqR0uBBiR2gOfKxns\npSA2PffXi7Ntpn4JrFBLrdIjiXb1szkuAL3xxL2n0CTOffDXN1jsE0wYGGBWK1oL\n52JtZldUU+09pHXT2ozvgi7qY7m5YJbkzSXjArS6kR0z9OmGLV6k+mRflrWev55E\nk+2rUsIIQQKBgQDkdYrV9n6E1lb/ZofNxf23slbPRv52UDDYdi3zNayCnJSdPz/T\nR1sZgjhnT/Fbx4/HXZib3QSZVv52+MSVtPsCwnVD8edSPlduCqI+IofOCKjwIrJp\nnjBgkPXqHqOD+mC8zmI1+styfPRleb6I3N2mDIX/gp4VkbCruiLjzHKlyQKBgQCs\nRqUG2BbhDRqWDbM6FsbBBGl5GoMBeDJ4/zZ7KZ1ZT4lc3pkMJRZSTT9jqdXngeUi\nwvokAXrCLu3SKUH6Jh+DhW1W4ZmP1pZ5D37BJs+Hq33hBrtaxS5VNqOOKIj+/bVd\nQICkS+pHiaCTkvSfdt0YP/TuLjnU74gZ1K4brZGCAQKBgBr4kG1AD1ylfDmdykZ+\nI/57cLOlLQiXKD4Z2Uc6/8gOvqFn4uY/C5NQLpb5IwJO0vR/R5KlRj4XRf43cHCH\nj5LnxIJoOIr9iVEPkkIQU7di7qqF7LbFzXtXJEiIpHM+gNplGkNdjq8XmN7zq2Vj\nPwe4e8+BVPx/Kav5CzTH5RMa\n-----END PRIVATE KEY-----\n"
+        EMAIL: "test-536@rp-tga-assistant-test.iam.gserviceaccount.com",
+        KEY: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQ+YktoQJ4W3kp\nkyP9cSOlPmkKVRCYv33+pEURe4qz63wknhflXwxHLComYPsneAEDV5CPBsZ0Ebie\n3Wetd23dVIRfOOJ5yJEl/1aGb4pS46ZxQUC+E7jcHGHsjtJXqdQCK1EHoVsZ/8U/\nSeaT2dgRY3gog/j5VLimjzfL4Hz65LG4behoQn1W6lB2ISG/3jiShnadTeqOrRgv\nVRo6V4/nyESnt1X33aKuCt/Cpy+fw9Fv+JERPvlyUwm/KGIVE/dVz7xMaXmtDf8H\nDuxquOubsb1EAm4H+C+1rR1gqoIOTSuvafxIJ8JNmeRg0YMvdWsevdiWonBXbyXO\nze/XmarPAgMBAAECggEARs0/hAPCx5Hw6e98361OGckRlqS1nsvClkaWnrOlqTnj\n3qRBClmxjt7QVP7/Gab/Y6jzpg5KhGwVLKz3kd2mT7YTkcefv5dG3/ZERRKbTOD2\nLBCQtGPAX+sSneugaYS80DRkdeQFMHzb0Y1faSy2W8Om7q6JPQd1yI5gUxb3IrYq\nsxW9AewOZ47RIbrdwLCs/sD5XkY7U490oe7I8eXc8EzuxBRgLRrdVVD5h4tRpEdY\nceeD3TJuFS4NGl1+MjM4128N8aniULLK5e30i7c2jZs8WjEd4r0Vx0JoyWnUup4R\nDClajC6kCXqJ3tQMF8S5Rd6O1fyauG3co+CEnxEtlQKBgQDBYZp+FmvelF3+6hLk\nBx4WUoOMW2IAbjvOwYoZ8givS/Q3TwssbsWKayrlWKeOCrMvrG9O3w+0ZeoIugde\nqwSuKrPEO7HbGxWJPWHzWcj9rKLHXXEMQi6kS/gvMBvFOmPIPux/VFd/s3mQTx+l\nZnRKd5f686IPST5B0B5oglqVJQKBgQC/60KbpPYB1b0LCoGGnETVVpZIvowkJgsK\nxDldGR+MXVBl+e03CXSqGicY0t/dOK0Dq4BZqVyxusH3t/W5w4KcLJ4my0feyuDM\n1hox5rhAJot7zEwnxgcILkoRWROOt7HuLWqmdrOQcf5rpTizGGbYuAKE8UAEO+i2\ndEbJMu1P4wKBgFM+I5XRKv/2F/wqYJVd5vqu7EeX8rjCuuYGc981S73B0U+Zq/Kl\ngE1UUnPFVOMVAgssjAGEjasXD8ZP5eo/bdVXNmjrVWU+5GdeT/LEHHvuO2fcdlRT\njOZWeXA+okWlG9zQEVfCQ6QJ6vNOzA2T680+a+Kvy3wPCEimQOC19C4tAoGBAK+J\nmC/STyzYeYNqxZQAxLi47NZ2aqn5nenoFmu/uephw1KyqTTI0ktvhkkfP6EQ4LbV\nm5zm2qC5KAbS3M9fMsxzxufG0OLHf5v7TJRN6kLKvpOqBhHu/6mM5TQ+3DOScw1d\nvwmo0o6QpVuCEH1HGXKpw6wjGSGGRlDzw3btvL9vAoGAeICsILMt10uBZhGbG456\n7/PexCME5q5JGdlJOTGbJyKZqUeOBIybUf4JQJsXUd5WbHirfwR9SE3Kpf6K/jWG\nixImLsb9tafz7KXxhtQpIVetxwS2e2lNy8WPpWmrm9PaT/IrP3hOfNXAnsryGlid\n/PoZIaoT0N0ihHUCc3h3Y04=\n-----END PRIVATE KEY-----\n"
 };
-var parentURL = "https://firestore.googleapis.com/v1beta1/projects/newbot-a9161/databases/(default)/documents/";
+var parentURL = "https://firestore.googleapis.com/v1beta1/projects/rp-tga-assistant-test/databases/(default)/documents/";
 var colHeadings = ["NRIC", "Course", "Matriculation No", "Name", "Timeslot"];
 var colHeadingsMap = {"docId":0, "course_name":1, "matriculation_no":2, "name":3, "slot":4};
 
@@ -203,7 +203,7 @@ function validateId (Id) {
   if (Id.length !== 18) {
     return false;
   }
-  patt=/(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)-(Jan|Feb|Mar|Apr|Mar|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(18|19|20|21|22|23) (00|01|02|03|04|05|06|07|08|09|10|11|12):(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59) (AM|PM)/;
+  patt=/(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(18|19|20|21|22|23) (00|01|02|03|04|05|06|07|08|09|10|11|12):(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59) (AM|PM)/;
   var result = Id.match(patt);
   if (!result) {
     return false;
@@ -271,7 +271,7 @@ function uploadEligibleStudents () {
    }
    if (rowNoErr) {
      Logger.log("Inserting Row " + i + " " + studentNRIC + " " + JSON.stringify(studentData));
-     response = createStudent('TESTappts', studentNRIC, studentData);
+     response = createStudent('appts', studentNRIC, studentData);
      Logger.log("Result: " + response.getResponseCode());
      if (response.getResponseCode() == 200) {
        successCount++;
@@ -355,7 +355,7 @@ function uploadTimeslots () {
    }
    if (rowNoErr) {
      Logger.log("Inserting Row " + i + " " + timeSlotId + " " + JSON.stringify(timeSlotData));
-     response = createTimeSlot('TESTtimeslot', timeSlotId, timeSlotData);
+     response = createTimeSlot('timeslot', timeSlotId, timeSlotData);
      Logger.log("Result: " + response.getResponseCode());
      if (response.getResponseCode() == 200) {
        successCount++;
@@ -382,6 +382,7 @@ function downloadAppts () {
   }
   var logSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Logs');
   var successCount = 0;
+  var nextPageToken = "First Fetch";
   if (logSheet == null) {
     SpreadsheetApp.getActiveSpreadsheet().insertSheet('Logs');
     logSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Logs');
@@ -393,57 +394,73 @@ function downloadAppts () {
   const token = getAuthToken(serviceAc.EMAIL, serviceAc.KEY);
   Logger.log ("Auth Token " + token);
   
-  const baseUrl = parentURL + "TESTappts";
+  var baseUrl = parentURL + "appts";
+  var totalRows = 0;
   const options = {
    'method' : 'get',
    'muteHttpExceptions' : true,
    'payload': "",
    'headers': {'content-type': 'application/json', 'Authorization': 'Bearer ' + token}
   };
-  Logger.log (baseUrl);
-  response = UrlFetchApp.fetch(baseUrl, options);
-  if (response.getResponseCode() == 200) {
-    Logger.log(response.getContentText());
-    var resultSet = JSON.parse(response.getContentText());
-    Logger.log(resultSet);
-    for (var i = 0; i < resultSet.documents.length; i++) {
-      if (studentInfoSheet.getLastRow() == 0 ) {
-        studentInfoSheet.appendRow(colHeadings);
+  
+  while (nextPageToken != "Last Page") {
+    
+    if (nextPageToken != "First Fetch")
+      baseUrl = parentURL + "appts" + "?&pageToken=" + nextPageToken;
+    
+    Logger.log(baseUrl);
+    response = UrlFetchApp.fetch(baseUrl, options);  
+    if (response.getResponseCode() == 200) {
+      Logger.log(response.getContentText());
+      var resultSet = JSON.parse(response.getContentText());
+    
+      if (resultSet.hasOwnProperty("nextPageToken")) {
+        Logger.log("Next Page Token: " + resultSet.nextPageToken);
+        nextPageToken = resultSet.nextPageToken;
+      } else {
+        Logger.log("This is the last page");
+        nextPageToken = "Last Page";
       }
-      var currRow=[];
-      var docNameComponents = resultSet.documents[i].name.split('/');
-      var currIcNo = docNameComponents[docNameComponents.length-1];
-      currRow[colHeadingsMap["docId"]] = currIcNo;
-      // assume that fields WILL NOT contain deeper objects
-      // The structure is as follows, e.g.:
-      /*  "documents": [
-            {
-             "name": "projects/newbot-a9161/databases/(default)/documents/TESTappts/GXXX8777S",
-             "fields": {
-              "matriculation_no": {
-              "stringValue": "18098376"
-              }, more "fields" occurences ....... */
-      var fieldKeys = Object.keys(resultSet.documents[i].fields);
-      var currField = "";
-      var colNo = 0;
-      for (var j = 0; j < fieldKeys.length; j++) {
-        var dataTypeKey = Object.keys(resultSet.documents[i].fields[fieldKeys[j]]);
-        Logger.log("Curr Field: " + resultSet.documents[i].fields[fieldKeys[j]][dataTypeKey[0]]);
-        currField = resultSet.documents[i].fields[fieldKeys[j]][dataTypeKey[0]];
-        colNo = colHeadingsMap[fieldKeys[j]];
-        if (fieldKeys[j] == "slot" && currField.length > 0) {
-          currField = "_" + currField; // to prevent auto-convert to date format
+
+      for (var i = 0; i < resultSet.documents.length; i++) {
+        if (studentInfoSheet.getLastRow() == 0 ) {
+          studentInfoSheet.appendRow(colHeadings);
         }
-        currRow[colNo] = currField;
+        var currRow=[];
+        var docNameComponents = resultSet.documents[i].name.split('/');
+        var currIcNo = docNameComponents[docNameComponents.length-1];
+        currRow[colHeadingsMap["docId"]] = currIcNo;
+        // assume that fields WILL NOT contain deeper objects
+        // The structure is as follows, e.g.:
+        /*  "documents": [{
+            "name": "projects/newbot-a9161/databases/(default)/documents/TESTappts/GXXX8777S",
+            "fields": {
+            "matriculation_no": {
+            "stringValue": "18098376"
+            }, more "fields" occurences ....... */
+        var fieldKeys = Object.keys(resultSet.documents[i].fields);
+        var currField = "";
+        var colNo = 0;
+        for (var j = 0; j < fieldKeys.length; j++) {
+          var dataTypeKey = Object.keys(resultSet.documents[i].fields[fieldKeys[j]]);
+          Logger.log("Curr Field: " + resultSet.documents[i].fields[fieldKeys[j]][dataTypeKey[0]]);
+          currField = resultSet.documents[i].fields[fieldKeys[j]][dataTypeKey[0]];
+          colNo = colHeadingsMap[fieldKeys[j]];
+          if (fieldKeys[j] == "slot" && currField.length > 0) {
+            currField = "_" + currField; // to prevent auto-convert to date format
+          }
+          currRow[colNo] = currField;
+        }
+        Logger.log("Curr Row :" + currRow);
+        studentInfoSheet.appendRow(currRow);
       }
-      Logger.log("Curr Row :" + currRow);
-      studentInfoSheet.appendRow(currRow);
-    }
-    logSheet.appendRow(["END: Completed download Student Appointment Information. Total " +
-    resultSet.documents.length + " rows", 
-    Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd-MMM-yyyy HH:mm")]);
-  } else {
-    logSheet.appendRow(["END: Unable to download Student Appointment Information",
-    Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd-MMM-yyyy HH:mm")]);
-  }
+      totalRows = totalRows + resultSet.documents.length;
+      if (nextPageToken === "Last Page")
+        logSheet.appendRow(["END: Completed download Student Appointment Information. Total " +
+                            totalRows + " rows", 
+                            Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd-MMM-yyyy HH:mm")]);
+    } else
+      logSheet.appendRow(["END: Unable to download Student Appointment Information",
+                          Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "dd-MMM-yyyy HH:mm")]);
+  } // while (nextPageToken != "Last Page")
 }

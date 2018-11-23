@@ -54,6 +54,7 @@ function setAppointment (request, response) {
         switch (eligibility.status) {
             case 1: {
                 // Check if this is an actual slot
+				let venue = "";
                 let validTimeSlot =
                 firestore.collection('timeslot').doc(params.slotChoice).get()
                 .then(querySnapshot => {
@@ -62,10 +63,13 @@ function setAppointment (request, response) {
                         ' slot choice does not exits!');
                         fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
                         `${params.slotChoice} is unavailable. If you wish to ` +
-                        `book another appointment, type START AGAIN.`};
+                        `book another appointment, type /START.`};
                         response.send(fulfillmentText);
                         return Promise.all(true);
-                    }
+                    } else {
+						console.log(querySnapshot.id, 'Proceed to book for ==>', querySnapshot.data());
+						venue = querySnapshot.data().venue;
+					}
                 })
                 .catch(err => {
                     console.log('Error checking selected time slot exists', err);
@@ -81,7 +85,8 @@ function setAppointment (request, response) {
                     }, { merge: true })
                     .then(()=> {
                         fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                        `your appointment on ${params.slotChoice} is confirmed`};
+                        `your appointment on ${params.slotChoice} is confirmed. ` +
+						`Please arrive at meeting venue ${venue} 10 minutes earlier. Good-bye.`};
                         console.log("Appointment successfully logged! ",
                         params.shortUin);
                         response.send(fulfillmentText);
@@ -107,9 +112,9 @@ function setAppointment (request, response) {
             }
             case 0: {
                 fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `I am not informed that a student with trailing student id ` +
-                `${params.shortUin} ` + `has TGA signing that is due. If you wish to ` +
-                `re-submit your particulars, type START AGAIN.`};
+                `I am not informed you need to sign the TGA. ` +
+                `You may have entered your NRIC/FIN incorrectly. ` +
+                `You can try again by typing /START.`};
                 response.send(fulfillmentText);
                 break;
             }
@@ -209,9 +214,9 @@ function getAvailAppointmentDays(request, response) {
             }
             case 0: {
                 fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `I am not informed that a student with trailing student id ` +
-                `${params.shortUin} ` + `has TGA signing that is due. If you wish to ` +
-                `re-submit your particulars, type START AGAIN.`};
+                `I am not informed you need to sign the TGA. ` +
+                `You may have entered your NRIC/FIN incorrectly. ` +
+                `You can try again by typing /START.`};
                 response.send(fulfillmentText);
                 break;
             }
@@ -296,8 +301,7 @@ function checkDaysAvail_SendResponse(results, params, request, response, eligibi
                     if (request.body.queryResult.action === "requestChangeApptDay")  {
                         advisorMsg = `${params.fullName}, ` +
                         `you have an existing appointment on ${eligibility.data.slot}. ` +
-                        `If you wish, you can proceed to change it to one ` +
-                        `of the following sessions.`
+                        `You may proceed to change to one of the following sessions.`
                     } else {
                         advisorMsg =`${params.fullName}, ` +
                         `It looks that you have yet to make any ` +
@@ -399,7 +403,7 @@ function getAvailAMPMSlots(request, response){
                     if (sessionTimeSlotsArray.length === 0) {
                         fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
                         `you seem to have selected an invalid day. ` +
-                        `you may type START AGAIN to book another appointment.`};
+                        `Type /START to book another appointment.`};
                         response.send(fulfillmentText);
                     }
                     return Promise.all(sessionTimeSlotsArray);
@@ -426,9 +430,9 @@ function getAvailAMPMSlots(request, response){
             }
             case 0: {
                 fulfillmentText = {fulfillmentText: `${params.fullName}, ` +
-                `I am not informed that a student with trailing student id ` +
-                `${params.shortUin} ` + `has TGA signing that is due. If you wish to ` +
-                `re-submit your particulars, type START AGAIN.`};
+                `I am not informed you need to sign the TGA. ` +
+                `You may have entered your NRIC/FIN incorrectly. ` +
+                `You can try again by type /START.`};
                 response.send(fulfillmentText);
                 break;
             }
@@ -549,7 +553,8 @@ exports.rpApptAsstWebhook = functions.https.onRequest((request, response) => {
         response.send('Invalid user name and password...');
         return ("Invalid user name and password...");
     }
-    
+    request.body.queryResult.parameters.shortUin = request.body.queryResult.parameters.shortUin.toUpperCase();
+	console.log("Caps shortUin ", request.body.queryResult.parameters.shortUin);
     switch (request.body.queryResult.action) {
         case "checkCurrentStatus": {
             console.log("Check Current Status");
